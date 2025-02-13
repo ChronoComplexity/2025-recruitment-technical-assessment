@@ -34,7 +34,7 @@ cookbook = None
 @app.route("/parse", methods=['POST'])
 def parse():
 	data = request.get_json()
-	recipe_name = data.get('recipeName', '')
+	recipe_name = data.get('input', '')
 	parsed_name = parse_handwriting(recipe_name)
 	if parsed_name is None:
 		return 'Invalid recipe name', 400
