@@ -66,18 +66,10 @@ const parse_handwriting = (recipeName: string): string | null => {
   return recipeName;
 }
 
-/**
- * - **type** can only be "recipe" or "ingredient".
-- **cookTime** can only be greater than or equal to 0
-- entry **names** must be unique
-- Recipe **requiredItems** can only have one element per name.
- */
-
 // [TASK 2] ====================================================================
 // Endpoint that adds a CookbookEntry to your magical cookbook
 app.post("/entry", (req:Request, res:Response) => {
   // TODO: implement me
-  
   res.status(500).send("not yet implemented!")
 
 });
