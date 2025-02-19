@@ -28,13 +28,13 @@ class Ingredient(CookbookEntry):
 app = Flask(__name__)
 
 # Store your recipes here!
-cookbook = None
+cookbook = {}
 
 # Task 1 helper (don't touch)
 @app.route("/parse", methods=['POST'])
 def parse():
 	data = request.get_json()
-	recipe_name = data.get('recipeName', '')
+	recipe_name = data.get('input', '')
 	parsed_name = parse_handwriting(recipe_name)
 	if parsed_name is None:
 		return 'Invalid recipe name', 400
@@ -43,9 +43,22 @@ def parse():
 # [TASK 1] ====================================================================
 # Takes in a recipeName and returns it in a form that 
 def parse_handwriting(recipeName: str) -> Union[str | None]:
-	# TODO: implement me
-	return recipeName
-
+    copy = recipeName
+# If no recipe name given, return none.
+    if len(recipeName) <= 0:
+        return None
+    
+    # Removes all the invalid characters (dashes must be first so they're counted as spaces)
+    recipeName = re.sub(r'[-_]', ' ', recipeName)
+    recipeName = re.sub(r'[^a-zA-Z ]', '', recipeName)
+    recipeName = re.sub(r'\s+', ' ', recipeName)
+    
+    # Splits the string, sets the cases correctly for each word then rejoins it
+    recipeWords = recipeName.split(' ')
+    recipeWords = list(map(lambda word: word.capitalize(), recipeWords))
+    recipeName = ' '.join(recipeWords)
+    
+    return recipeName
 
 # [TASK 2] ====================================================================
 # Endpoint that adds a CookbookEntry to your magical cookbook
