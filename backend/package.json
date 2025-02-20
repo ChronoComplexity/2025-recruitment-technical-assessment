@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "build": "^0.1.4",
+    "express": "^4.21.2",
+    "flask": "^0.2.10",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "typescript": "^5.7.3"
+  }
+}
