@@ -60,11 +60,6 @@ app.post("/parse", (req:Request, res:Response) => {
 const parse_handwriting = (recipeName: string): string | null => {
   const dashes = /[-_]/g;
   const invalidAlphabet = /[^a-zA-Z\s]/g;
-  
-  // If no recipe returns null
-  if (!recipeName) {
-    return null;
-  }
 
   // Removes all the invalid characters (dashes must be first so they're counted as spaces later)
   recipeName = recipeName.replace(dashes, ' ');
