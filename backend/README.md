@@ -1,3 +1,14 @@
+Comment: Preferred language for backend development is usually Typescript,  but I've filled in the
+Python form as well for the backend, since I'm also capable of using it. A possible consideration
+for the project would be loop detection for the recipes, as if recipes reference each other currently
+it could lead to undefined behaviour. Loop detection would be implemented with a set keeping track of
+the original recipes the smaller recipes are used in, but I've left it without loop detection as it's
+undefined behaviour. In the Python file, since fns are snake_case and variables are camelCase, I decided
+to keep that consistent.
+
+(Also, the test for duplicate names in test.sh is somewhat invalid when adding a recipe with dupe ingredients, since
+it has a cookTime not a requiredItems lists for some reason, and therefore would fail either way.)
+
 > This question is relevant for **any project with a backend (minus chaos)**
 > (Bridges, Circles, Clusters, Freerooms, Notangles, Structs, Unielectives).
 
