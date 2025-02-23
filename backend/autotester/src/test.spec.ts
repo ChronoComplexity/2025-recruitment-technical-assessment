@@ -198,12 +198,12 @@ describe("Task 3", () => {
     });
 
     it("Two of the same ingredients", async () => {
-      const meatball = {
+      const sameIngredientsRecipe = {
         type: "recipe",
         name: "Apples",
         requiredItems: [{ name: "Apple", quantity: 2 }],
       };
-      const resp1 = await postEntry(meatball);
+      const resp1 = await postEntry(sameIngredientsRecipe);
       expect(resp1.status).toBe(200);
 
       const resp2 = await postEntry({
@@ -226,13 +226,14 @@ describe("Task 3", () => {
         ]
       });
     });
+
     it("Two different ingredients", async () => {
-      const meatball = {
+      const differentIngredientsRecipe = {
         type: "recipe",
         name: "Banana splits",
         requiredItems: [{ name: "Banana", quantity: 1 }, { name: "Split", quantity: 1 }],
       };
-      const resp1 = await postEntry(meatball);
+      const resp1 = await postEntry(differentIngredientsRecipe);
       expect(resp1.status).toBe(200);
 
       const resp2 = await postEntry({
@@ -266,18 +267,19 @@ describe("Task 3", () => {
         ]
       });
     });
+
     it("Nested recipes", async () => {
-      const meatball = {
+      const nestedRecipe = {
         type: "recipe",
         name: "Ice cream special",
         requiredItems: [{ name: "Banana splits", quantity: 1 }, { name: "Split", quantity: 1 }],
       };
-      const resp1 = await postEntry(meatball);
+      const resp1 = await postEntry(nestedRecipe);
       expect(resp1.status).toBe(200);
 
-      const resp4 = await getTask3("Ice cream special");
-      expect(resp4.status).toBe(200);
-      expect(resp4.body).toStrictEqual({
+      const resp2 = await getTask3("Ice cream special");
+      expect(resp2.status).toBe(200);
+      expect(resp2.body).toStrictEqual({
         "name": "Ice cream special",
         "cookTime": 4,
         "ingredients": [
@@ -288,6 +290,33 @@ describe("Task 3", () => {
           {
             "name": "Split",
             "quantity": 2
+          }
+        ]
+      });
+    });
+
+    it("Nested recipes, larger amounts of nested recipe", async () => {
+      const multipleNestedRecipes = {
+        type: "recipe",
+        name: "Ice cream larger group",
+        requiredItems: [{ name: "Banana splits", quantity: 2 }, { name: "Split", quantity: 2 }],
+      };
+      const resp1 = await postEntry(multipleNestedRecipes);
+      expect(resp1.status).toBe(200);
+
+      const resp2 = await getTask3("Ice cream larger group");
+      expect(resp2.status).toBe(200);
+      expect(resp2.body).toStrictEqual({
+        "name": "Ice cream larger group",
+        "cookTime": 8,
+        "ingredients": [
+          {
+          "name": "Banana",
+          "quantity": 2
+          },
+          {
+            "name": "Split",
+            "quantity": 4
           }
         ]
       });
