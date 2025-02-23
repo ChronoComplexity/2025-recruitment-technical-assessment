@@ -110,7 +110,7 @@ const addEntry = (input: recipe & ingredient): {} => {
   // Filters out non-unique entry names
   if (cookbook.saved_recipes.some(entry => (entry.name === input.name)) ||
   cookbook.saved_ingredients.some(entry => (entry.name === input.name))) {
-    throw new Error('Entry names must be unique, entry name already taken.');
+    throw new Error("Entry names must be unique, entry name already taken.");
   }
 
   // Decides what to do based on input types
@@ -118,17 +118,17 @@ const addEntry = (input: recipe & ingredient): {} => {
     // Checks for duplicate names in required items
     const requiredNames = input.requiredItems.map(entry => entry.name);
     if (new Set(requiredNames).size != requiredNames.length) {
-      throw new Error('Recipe requiredItems can only have one element per name.');
+      throw new Error("Recipe requiredItems can only have one element per name.");
     }
     cookbook.saved_recipes.push({ name: input.name, type: input.type, requiredItems: input.requiredItems });
   } else if (input.type === "ingredient") {
     // Checks cookTime is above or equal to 0
     if (input.cookTime < 0) {
-      throw new Error('cookTime can only be greater than or equal to 0');
+      throw new Error("cookTime can only be greater than or equal to 0");
     }
     cookbook.saved_ingredients.push({name: input.name, type: input.type, cookTime: input.cookTime});
   } else {
-    throw new Error('Type can only be "recipe" or "ingredient".');
+    throw new Error("Type can only be \"recipe\" or \"ingredient\".");
   }
   
   return {};
@@ -182,7 +182,7 @@ const getRecipeInfo = (name: string, ingredients: requiredItem[], cookTime: numb
   // Checks recipe exists
   const requestedRecipe = cookbook.saved_recipes.find(recipe => recipe.name === name);
   if (!requestedRecipe) {
-    throw new Error('Recipe with corresponding name not found.');
+    throw new Error("Recipe with corresponding name not found.");
   }
 
   // Handles items in recipe
