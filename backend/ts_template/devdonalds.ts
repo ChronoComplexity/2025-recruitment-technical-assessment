@@ -161,7 +161,7 @@ const getEntry = (name: string): recipeSummary => {
 
   // Checks all required items in recipe are also valid
   const ingredients = [] as requiredItem[];
-  return getRecipeInfo(name, ingredients, 0);
+  return getRecipeInfo(name, ingredients, 0, 1);
 }
 
 /**
@@ -174,10 +174,11 @@ const getEntry = (name: string): recipeSummary => {
  * @param name The name of the recipe being checked for.
  * @param ingredients The ingredients already present in the recipe.
  * @param cookTime The amount of time required to cook the recipe so far.
+ * @param recipeQuantity The amount of the recipe to be added, if relevant
  * @returns recipeSummary stating the recipe's name, updated ingredients list and
  * cook time, accounting for the previous ingredient list and cooktime.
  */
-const getRecipeInfo = (name: string, ingredients: requiredItem[], cookTime: number): recipeSummary => {
+const getRecipeInfo = (name: string, ingredients: requiredItem[], cookTime: number, recipeQuantity: number): recipeSummary => {
   // Checks recipe exists
   const requestedRecipe = cookbook.saved_recipes.find(recipe => recipe.name === name);
   if (!requestedRecipe) {
@@ -192,14 +193,14 @@ const getRecipeInfo = (name: string, ingredients: requiredItem[], cookTime: numb
       const match = ingredients.findIndex(existing => existing.name == item.name);
       // Adds ingredient to ingredients list, creating a new object if needed, then updates cook time.
       if (match == NON_EXISTING) {
-         ingredients.push({name: ingredient.name, quantity: item.quantity});
+         ingredients.push({name: ingredient.name, quantity: (item.quantity * recipeQuantity)});
       } else {
-        ingredients[match].quantity += item.quantity;
+        ingredients[match].quantity += item.quantity * recipeQuantity;
       }
-      cookTime += item.quantity * ingredient.cookTime;
+      cookTime += item.quantity * ingredient.cookTime * recipeQuantity;
     } else {
       // Accounts for recipe corresponding to item, or throws error if not valid recipe
-      const result = getRecipeInfo(item.name, ingredients, cookTime);
+      const result = getRecipeInfo(item.name, ingredients, cookTime, item.quantity);
       ingredients = result.ingredients;
       cookTime = result.cookTime;
     }
